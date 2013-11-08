@@ -14,3 +14,4 @@ def WriteLines(filename,lines):
 	f.write(lines)
 	f.close()
 	return lines
+

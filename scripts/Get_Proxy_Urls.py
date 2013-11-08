@@ -10,7 +10,6 @@ keywords=ReadLines(script_path+"/../settings/ProxyKeywords.data")
 urls=[]
 for request in keywords:
 	if request!='':
-		#print(GetRamblerUrlsByKeyword(request))
 		urls.extend(GetRamblerUrlsByKeyword(request))
-print (urls)
+WriteLines (script_path+"/../data/listtodownload.data","\n".join(urls))
 
