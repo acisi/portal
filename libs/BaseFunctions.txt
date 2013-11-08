@@ -1,0 +1,2 @@
+ReadLines(filename) - Прочитать все строки в массив строк
+WriteLines(filename,lines) - Записать все строки в файл

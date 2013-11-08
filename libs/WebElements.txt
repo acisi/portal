@@ -1,0 +1,3 @@
+GetRamblerUrlsByKeyword(keyword) - Вывести массив url из топа Rambler по указанным ключевым словам (разделитель слов "+")
+
+
