@@ -18,10 +18,12 @@
 ################################################################
 
 ScriptDirectory=`dirname $0`
+$ScriptDirectory/../scripts/Get_Proxy_Urls.py
 mkdir $ScriptDirectory/../data/tmp/
 mkdir $ScriptDirectory/../data/tmp/web
 rm -R $ScriptDirectory/../data/tmp/web/*
 cat $ScriptDirectory/../data/listtodownload.data | sort | uniq > $ScriptDirectory/../data/listtodownload.data.uniq
+rm $ScriptDirectory/../data/listtodownload.data
 cat $ScriptDirectory/../data/listtodownload.data.uniq | while read url;
     do
     echo $url
@@ -30,7 +32,7 @@ cat $ScriptDirectory/../data/listtodownload.data.uniq | while read url;
     --header="Accept-Encoding: deflate" --header="Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7" --header="Keep-Alive: 300" \
     --directory-prefix=$ScriptDirectory/../data/tmp/web/ "$url" &
     pid_to_kill=`echo $!`
-    sleep 240
+    sleep 80
     kill $pid_to_kill
     done
 echo > $ScriptDirectory/../data/tmp/metafile.dat
@@ -43,3 +45,4 @@ cat $ScriptDirectory/../data/tmp/metafile.dat | grep -a -E -o '(25[0-5]|2[0-4][0
 rm $ScriptDirectory/../data/tmp/metafile.dat
 cat $ScriptDirectory/../data/tmp/iplist.dat | sort | uniq > $ScriptDirectory/../data/tmp/iplist.lst
 rm $ScriptDirectory/../data/tmp/iplist.dat
+$ScriptDirectory/../scripts/Upload_Proxy_IP.py
