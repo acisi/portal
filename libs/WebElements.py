@@ -21,3 +21,8 @@ def GetRamblerUrlsByKeyword(keyword):
 			if link!='':
 				result.append(link)
 	return result
+
+def ProxyRequestPage(url,host,port):
+	proxy = urllib3.proxy_from_url('http://'+host+':'+port+'/',timeout=20.0)
+	html = proxy.request('GET', url)
+	return html

@@ -1,11 +1,11 @@
-Acisi portal project
+PROJECT "ACISI"
 ==========================
-(Автор: Черноусов Антон)
+(Author: Chernousov Anton)
 (e-mail: acisi82@mail.ru)
+(web: http://acisi.ru)
 
-Попытка свести в кучу все разработки по проекту портал. 
-Документация в файле ReadMeFirst.txt
-
-1. Восстанавливаем разработки по проекту поиска открытых прокси-серверов
+The integration of all projects ACISI group.
+At the moment, moved:
+1. Search, analysis and collection of open proxies.
 
 
