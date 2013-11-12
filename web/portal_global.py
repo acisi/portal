@@ -38,5 +38,5 @@ def api(request):
 			email=""
 		if email!="":
 			res=IsEmailActiveMailRU(email)
-			html=json.dumps([{'result':'ok'},{'active':str(res[0])},{'email':email},{'name':str(res[1])}])+str(res[2])
+			html=json.dumps([{'result':'ok'},{'present':str(res[0])},{'email':email},{'name':str(res[1])}])+str(res[2])
 	return HttpResponse(html)
