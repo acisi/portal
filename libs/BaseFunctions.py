@@ -1,5 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+import random
+import string
+
+def RandomString(length=7):
+	return ''.join(random.choice(string.ascii_letters) for i in range(length))
 
 def ReadLines(filename):
 	f = open(filename,'r')

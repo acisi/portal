@@ -1,7 +1,80 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import urllib3
+import httplib2
+import pycurl
+import tempfile
+import io
+import os
+from BaseFunctions import RandomString
 from urllib.request import quote
+from DatabaseLibs import DatabaseConnection
+
+def GetBrowserHeaders():
+	Headers=['User-Agent:Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:25.0) Gecko/20100101 Firefox/25.0',\
+	'Accept:text/html',\
+	'Accept-Language:en-US,en;q=0.5',\
+	'Connection:keep-alive']
+	return Headers
+
+class WebElements:
+	temp_dir=tempfile.gettempdir()
+	cookie=temp_dir+"/"+RandomString()+'.cookie'
+	def __init__(self):
+		self.Curl=pycurl.Curl()
+	def SetPostRequest(self,post):
+		self.Curl.setopt(self.Curl.POSTFIELDS,post)
+	def HtmlContent(self,url):
+		headbuf = io.StringIO()
+		bodybuf = io.StringIO()
+		try:
+			self.Curl.setopt(self.Curl.URL,url)
+			self.Curl.setopt(self.Curl.HEADERFUNCTION, headbuf.write)
+			self.Curl.setopt(self.Curl.WRITEFUNCTION, bodybuf.write)
+			self.Curl.setopt(self.Curl.COOKIEFILE, self.cookie)
+			self.Curl.setopt(self.Curl.COOKIEJAR, self.cookie)
+			self.Curl.setopt(self.Curl.HTTPHEADER,GetBrowserHeaders())
+			self.Curl.setopt(self.Curl.CONNECTTIMEOUT, 15)
+			self.Curl.setopt(self.Curl.TIMEOUT, 18)
+			self.Curl.perform()
+			Html=bodybuf.getvalue()
+			Header=headbuf.getvalue()
+		except:
+			Html=''
+			Header=''
+		Html=str(bodybuf.getvalue())
+		Header=str(headbuf.getvalue())
+		headbuf.close()
+		bodybuf.close()
+		return [Header,Html]
+
+class WebMailRU(WebElements):
+	def CheckEmailExist(self,email):
+		exist=False
+		e_mail=email.split('@')[0]
+		e_mail_domain=email.split('@')[1]
+		temp_dir=tempfile.gettempdir()
+		cookie=temp_dir+"/"+RandomString()+'.cookie'
+		h = httplib2.Http(cookie)
+		resp, content = h.request("http://e.mail.ru/cgi-bin/signup?from=main", "GET")
+		try:
+			os.removedirs(cookie)
+		except:
+			tmp_error=''
+		content=content.decode('utf-8','ignore')
+		try:
+			login_xid=content.split('<input autocomplete="off"')[1].split('value=""')[0].split('"')[1].split('"')[0]
+			x_reg_id=content.split("'x_reg_id': '")[1].split("'")[0]
+		except:
+			login_xid=''
+			x_reg_id=''
+		self.SetPostRequest("RegistrationDomain="+e_mail_domain+"&Signup_utf8=1&"+login_xid+"="+e_mail+"&x_reg_id="+x_reg_id)
+		result=str(self.HtmlContent('http://e.mail.ru/cgi-bin/checklogin')[1])
+		if result=='EX_USEREXIST':
+			exist=True
+			#UpdateID=ElementsDB()
+			#UpdateID.GetEmailID(email)
+		return exist
 
 def GetRamblerUrlsByKeyword(keyword):
 	result=[]
@@ -23,6 +96,28 @@ def GetRamblerUrlsByKeyword(keyword):
 	return result
 
 def ProxyRequestPage(url,host,port):
-	proxy = urllib3.proxy_from_url('http://'+host+':'+port+'/',timeout=20.0)
-	html = proxy.request('GET', url)
+	try:
+		proxy = urllib3.proxy_from_url('http://'+host+':'+port+'/',timeout=20.0)
+		html = proxy.request('GET', url)
+	except:
+		html=''
 	return html
+
+def GetRandomActiveProxy():
+	cstring='0.0.0.0:0'
+	con=DatabaseConnection()
+	cur=con.cursor()
+	cur.execute('SELECT ip,port FROM acisi_http_proxy WHERE active=\'True\' ORDER BY RANDOM() LIMIT 1;')
+	result=cur.fetchone()
+	cstring=result[0]+':'+str(result[1])
+	cur.close()
+	con.close()
+	return cstring
+
+def IsEmailActiveMailRU(email):
+	temp=''
+	web=WebMailRU()
+	Exist=str(web.CheckEmailExist(email))
+	result=[Exist,'None',temp]
+	return result
+
