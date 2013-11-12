@@ -1,0 +1,5 @@
+CREATE TABLE "uniq_ip" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "ip" TEXT
+, c1 boolean DEFAULT False, c2 boolean DEFAULT False);
+CREATE UNIQUE INDEX "u_ip" on uniq_ip (ip ASC);

@@ -1,0 +1,2 @@
+CREATE TABLE "http_proxy" ( "ip" VARYING CHARACTER(24),  "port" INTEGER,  "active" BOOLEAN DEFAULT 'False');
+CREATE UNIQUE INDEX `port_UNIQUE` ON `http_proxy` (`ip`, `port` ASC);
