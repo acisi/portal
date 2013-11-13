@@ -42,8 +42,6 @@ class WebElements:
 		except:
 			Html=''
 			Header=''
-		Html=str(bodybuf.getvalue())
-		Header=str(headbuf.getvalue())
 		headbuf.close()
 		bodybuf.close()
 		return [Header,Html]
@@ -104,14 +102,16 @@ def ProxyRequestPage(url,host,port):
 	return html
 
 def GetRandomActiveProxy():
-	cstring='0.0.0.0:0'
-	con=DatabaseConnection()
-	cur=con.cursor()
-	cur.execute('SELECT ip,port FROM acisi_http_proxy WHERE active=\'True\' ORDER BY RANDOM() LIMIT 1;')
-	result=cur.fetchone()
-	cstring=result[0]+':'+str(result[1])
-	cur.close()
-	con.close()
+	try:
+		con=DatabaseConnection()
+		cur=con.cursor()
+		cur.execute('SELECT ip,port FROM acisi_http_proxy WHERE active=\'True\' ORDER BY RANDOM() LIMIT 1;')
+		result=cur.fetchone()
+		cstring=result[0]+':'+str(result[1])
+		cur.close()
+		con.close()
+	except:
+		cstring='0.0.0.0:0'
 	return cstring
 
 def IsEmailActiveMailRU(email):

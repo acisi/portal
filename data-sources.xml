@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data-sources>
-	<data-source id="sqlite_zentus-1384059146813-902962201" provider="generic" driver="sqlite_zentus" name="SQLite - uniq_ip.sqlite" create-date="1384059146813" save-password="true" show-system-objects="true" read-only="false">
-		<connection server="" database="/home/chernousov/workspace/portal/data/uniq_ip.sqlite" url="jdbc:sqlite:/home/chernousov/workspace/portal/data/uniq_ip.sqlite" user="" type="dev"/>
+	<data-source id="postgresql-1384303860505--1718613142" provider="generic" driver="postgresql" name="PostgreSQL - portal" create-date="1384303860523" save-password="true" show-system-objects="true" read-only="false">
+		<connection host="10.8.0.1" port="5432" server="" database="portal" url="jdbc:postgresql://10.8.0.1:5432/portal" user="portal" password="GA0KLEASFXbk" type="dev"/>
 	</data-source>
 </data-sources>
