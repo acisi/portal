@@ -114,6 +114,20 @@ def GetRandomActiveProxy():
 		cstring='0.0.0.0:0'
 	return cstring
 
+def GetProxyList(items=1):
+	proxylist=''
+	con=DatabaseConnection()
+	cur=con.cursor()
+	cur.execute("SELECT ip,port FROM  acisi_http_proxy WHERE active=True ORDER BY lastcheck DESC LIMIT "+str(items)+";")
+	result=cur.fetchall()
+	delimeter=''
+	for res in result:
+		proxylist=proxylist+delimeter+res[0]+':'+str(res[1])
+		delimeter='; '
+	cur.close()
+	con.close()
+	return proxylist
+
 def IsEmailActiveMailRU(email):
 	temp=''
 	web=WebMailRU()

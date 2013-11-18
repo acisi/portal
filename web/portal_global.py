@@ -5,6 +5,7 @@ from BaseFunctions import ReadLines
 from BaseFunctions import RandomString
 from portal_pages import ProxyProjectInfo
 from WebElements import GetRandomActiveProxy
+from WebElements import GetProxyList
 from WebElements import IsEmailActiveMailRU
 
 import json
@@ -31,6 +32,12 @@ def api(request):
 	# Get random active http proxy
 	elif action=='randomproxy':
 		html=GetRandomActiveProxy()
+	elif action=='proxylist':
+		try:
+			reccount=int(request.GET['count'])
+		except:
+			reccount=1
+		html=GetProxyList(reccount)
 	elif action == 'mailrucheck':
 		try:
 			email=request.GET['email']
