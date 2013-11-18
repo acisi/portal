@@ -7,15 +7,18 @@ from portal_pages import ProxyProjectInfo
 from WebElements import GetRandomActiveProxy
 from WebElements import GetProxyList
 from WebElements import IsEmailActiveMailRU
-
+import os
 import json
 
 def PortalPages(request):
+	script_path=os.path.dirname( __file__ )
 	html='<html>\
 	<head>\
 	<head>\
 	<body>\
 	'+ProxyProjectInfo()+'\
+	'+"\n".join(ReadLines(script_path+"/yandex_counter.dat"))+'\
+	'+"\n".join(ReadLines(script_path+"/google_counter.dat"))+'\
 	</body>\
 	</html>'
 	return HttpResponse(html)

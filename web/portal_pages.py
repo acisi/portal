@@ -5,5 +5,5 @@ from BaseFunctions import ReadLines
 import json
 
 def ProxyProjectInfo():
-	html='<p>Project proxy info:</p>'
+	html='<p>Only API :(</p>'
 	return html
