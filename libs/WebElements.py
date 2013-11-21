@@ -101,6 +101,15 @@ def ProxyRequestPage(url,host,port):
 		html=''
 	return html
 
+def RequestPage(url):
+	try:
+		proxy = urllib3.PoolManager()
+		html = proxy.request('GET', url).data
+	except:
+		html=''
+	return html
+
+
 def GetRandomActiveProxy():
 	try:
 		con=DatabaseConnection()
