@@ -10,7 +10,7 @@ for anekdot in anekdots:
 	print (anekdot[0])
 	f.write(anekdot[0])
 	print ("=============================================\n")
-	f.write('==[acisi]==')
+	f.write('\n'+'==[acisi]=='+'\n')
 f.close()
 curr.close()
 conn.close()
